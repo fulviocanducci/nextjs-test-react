@@ -12,6 +12,8 @@ import { ITask, ITaskArray } from "../../@types/task";
 import { TableTrSuper } from "../../components/TableTr";
 
 import { tasksListAsync } from "../../utils/request-task";
+import { StatusIcon } from "../../components/status";
+import { padStart } from "../../utils/padStart";
 
 function Task({ data }: ITaskArray) {
   const [tasks, setTasks] = useState<ITask[] | null>(data);
@@ -23,13 +25,16 @@ function Task({ data }: ITaskArray) {
         </Link>
       </div>
       <Table responsive striped bordered hover size="sm">
-        <TableThead items={["Id", "Description", "..."]}></TableThead>
+        <TableThead items={["Id", "Description", "Status", "..."]}></TableThead>
         <tbody>
           {tasks &&
             tasks.map((item, index) => (
               <tr key={index + item.id}>
-                <td className="col-md-2 text-end pe-2">{item.id}</td>
-                <td className="col-md-8 text-start">{item.description}</td>
+                <td className="col-md-2 text-center pe-2">{padStart(item.id, "0", 10)}</td>
+                <td className="col-md-7 text-start">{item.description}</td>
+                <td className="col-md-1 text-center">
+                  <StatusIcon status={item.done} />
+                </td>
                 <td className="col-md-2 text-center">
                   <Button variant="primary" size="sm" onClick={(e) => router.push("task/update/" + item.id)}>
                     <FiEdit2></FiEdit2>

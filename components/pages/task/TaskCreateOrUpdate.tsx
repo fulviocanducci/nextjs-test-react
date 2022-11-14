@@ -19,9 +19,9 @@ export default function TaskCreateOrUpdate({ values, mode, onSubmitResult }: ICr
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<ITask>({
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: values || undefined,
     resolver: yupResolver(schema),
   });
@@ -31,7 +31,7 @@ export default function TaskCreateOrUpdate({ values, mode, onSubmitResult }: ICr
       <input type="hidden" id="id" {...register("id")} />
       <div className="form-group">
         <label className="form-label mb-1">Descrição</label>
-        <input className="form-control form-control-sm" id="description" {...register("description")} autoFocus />
+        <input className={errors.description ? "form-control form-control-sm is-invalid" : "form-control form-control-sm is-valid"} id="description" {...register("description")} autoFocus />
         <div className="mt-1 text-danger">{errors && errors.description?.message}</div>
       </div>
       <div className="form-check mb-1 mt-2">
@@ -41,7 +41,7 @@ export default function TaskCreateOrUpdate({ values, mode, onSubmitResult }: ICr
         </label>
       </div>
       <div className="mt-1 mb-2">
-        <Button variant="primary" size="sm" type="submit" className="mb-2">
+        <Button variant="primary" size="sm" type="submit" className="mb-2" disabled={!isValid}>
           <FiSave></FiSave>
           {mode && mode === "ADD" && " Adicionar"} {mode && mode === "UPDATE" && " Atualizar"}
         </Button>

@@ -3,11 +3,11 @@ import IArrayString from "../../@types/array_string";
 function TableThead({ items }: IArrayString) {
   return (
     <thead>
-      <tr>
+      <tr className="table-primary">
         {items &&
           items.map((item, index) => (
             <th key={index} className="text-center">
-              {item}
+              <small>{item}</small>
             </th>
           ))}
       </tr>
